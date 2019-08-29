@@ -7,6 +7,5 @@
             <div>
                 <a href="{{route('discussions.show', $discussion->slug)}}" class="btn btn-success btn-sm">View</a>
             </div>
-        </div>
-        
+        </div>        
     </div>
