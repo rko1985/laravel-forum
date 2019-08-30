@@ -11,6 +11,8 @@
 |
 */
 
+use LaravelForum\Http\Controllers\UsersController;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -23,4 +25,8 @@ Route::resource('discussions', 'DiscussionsController');
 
 Route::resource('discussions/{discussion}/replies', 'RepliesController');
 
+
+Route::get('users/notifications', [UsersController::class, 'notifcations']);
+
 Route::post('discussions/{discussion}/replies/{reply}/mark-as-best-reply', 'DiscussionsController@reply')->name('discussions.best-reply');
+
