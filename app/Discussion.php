@@ -18,6 +18,18 @@ class Discussion extends Model
         return 'slug';
     }
 
+    public function scopeFilterByChannels($builder){
+        if(request()->query('channel')){
+            $channel = Channel::where('slug', request()->query('channel'))->first();
+        
+            if($channel){
+                return $builder->where('channel_id', $channel->id);
+            }
+            return $builder;
+        }
+        return $builder;
+    }
+
     public function bestReply(){
         return $this->belongsTo(Reply::class, 'reply_id');
     }
@@ -26,6 +38,10 @@ class Discussion extends Model
         $this->update([
             'reply_id' => $reply->id
         ]);
+
+        if($reply->owner->id == $this->author->id){
+            return;
+        }
 
         $reply->owner->notify(new ReplyMarkedAsBestReply($reply->discussion));
     }
